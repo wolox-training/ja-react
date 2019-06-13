@@ -1,15 +1,26 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { arrayOf, func } from 'prop-types';
 import { bookSelectedPropType } from '@constants/propTypes';
 import Button from '@components/Button';
+import actionsCreators from '../../../../../redux/book/actions'
+import store from '@redux/store';
 
 import Item from './components/Item';
 import styles from './styles.scss';
 
-class ShoppingCart extends PureComponent {
+class ShoppingCart extends Component {
   state = {
-    open: false
+    open: false,
+    bookSelected: []
   };
+
+  componentWillMount() {
+    this.setState( {bookSelected: store.getState().bookSelected} );
+    store.subscribe(() => {
+      const { bookSelected } = store.getState();
+      this.setState({ bookSelected });
+    });
+  }
 
   toggleContent = () => {
     this.setState(prevState => ({
@@ -20,12 +31,11 @@ class ShoppingCart extends PureComponent {
   total = (accumulator, currentValue) => accumulator + currentValue.quantity;
 
   renderItem = item => {
-    const { addItem, removeItem } = this.props;
     return <Item key={item.id} item={item} addItem={addItem} removeItem={removeItem} />;
   };
 
   render() {
-    const { data } = this.props;
+    const bookSelected = this.state.bookSelected;
     return (
       <Fragment>
         <Button className={styles.buttonCart} onClick={this.toggleContent}>
@@ -33,18 +43,20 @@ class ShoppingCart extends PureComponent {
         </Button>
         <div className={`${styles.container} ${this.state.open ? styles.open : ''}`}>
           <h1 className={styles.title}>Cart</h1>
-          <ul className={styles.content}>{data.map(this.renderItem)}</ul>
-          <h2 className={`${styles.title} ${styles.total}`}>Total: {data.reduce(this.total, 0)}</h2>
+          <ul className={styles.content}>{bookSelected.map(this.renderItem)}</ul>
+          <h2 className={`${styles.title} ${styles.total}`}>Total: {bookSelected.reduce(this.total, 0)}</h2>
         </div>
       </Fragment>
     );
   }
 }
 
-ShoppingCart.propTypes = {
-  data: arrayOf(bookSelectedPropType).isRequired,
-  addItem: func.isRequired,
-  removeItem: func.isRequired
+const addItem = itemId => {
+  store.dispatch(actionsCreators.addItem(itemId));
 };
 
-export default ShoppingCart;
+const removeItem = itemId => {
+  store.dispatch(actionsCreators.removeItem(itemId));
+};
+
+export default (ShoppingCart);

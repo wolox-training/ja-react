@@ -7,6 +7,7 @@ import Book from './components/Book';
 import Search from './components/Search';
 import ShoppingCart from './components/ShoppingCart';
 import styles from './styles.scss';
+import actionsCreators from '../../../redux/book/actions'
 
 class App extends Component {
   state = {
@@ -19,20 +20,16 @@ class App extends Component {
       const { books, bookSelected } = store.getState();
       this.setState({ books, bookSelected });
     });
-    // TODO to implement the dispatch
+    store.dispatch(actionsCreators.getBooks());
   }
 
-  // TODO to implement the dispatch
-  onSearch = value => {};
+  onSearch = value => {
+    store.dispatch(actionsCreators.searchBook(value));
+  };
 
-  // TODO to implement the dispatch
-  addToCart = item => {};
-
-  // TODO to implement the dispatch
-  addItem = itemId => {};
-
-  // TODO to implement the dispatch
-  removeItem = itemId => {};
+  addToCart = item => {
+    store.dispatch(actionsCreators.addToCart(item));
+  };
 
   CONFIGURATION_BUTTON = {
     add: {
@@ -67,7 +64,7 @@ class App extends Component {
           )}
         </div>
         {this.state.bookSelected.length ? (
-          <ShoppingCart data={this.state.bookSelected} addItem={this.addItem} removeItem={this.removeItem} />
+          <ShoppingCart/>
         ) : null}
         <Footer />
       </Fragment>
