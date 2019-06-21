@@ -12,14 +12,14 @@ let Login = (props) => {
           label="Mail"
           name="mail"
           type="text"
-          validations={[ mailValidation, required]}
+          validate={[ mailValidation, required]}
         />
         <Field
           component={FormInput}
           label="Password"
           name="password"
           type="password"
-          validations={[required, minLength]}
+          validate={[required, minLength]}
         />
         <button
           className={styles.button}
