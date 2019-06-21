@@ -1,12 +1,26 @@
+import userService from '../../services/userService';
+
 export const actions = {
-  GET_TOKEN: '@@SESSION/GET_TOKEN',
+  LOGIN: '@@SESSION/LOGIN',
+  LOGIN_FAILURE: '@@SESSION/LOGIN_FAILURE',
+  LOGIN_SUCCESS: '@@SESSION/LOGIN_SUCCESS'
 };
 
 const actionsCreators = {
-  getToken: data => ({
-    type: actions.GET_TOKEN,
-    payload: data
-  })
+  login: data => async dispatch => {
+    const response = await userService.login(data);
+    if (response.ok) {
+      dispatch({
+        type: actions.LOGIN_SUCCESS,
+        payload: response.data
+     });
+    } else {
+       dispatch({
+        type: actions.LOGIN_FAILURE,
+        payload: response.problem
+     });
+    }
+  },
 };
 
 export default actionsCreators;
