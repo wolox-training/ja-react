@@ -10,8 +10,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   )} />
 )
 
-const mapStateToProps = (state) => {
-  return { isLogged: !!state.session.token }
-}
+const mapStateToProps = (state) => 
+   ({ isLogged: !!state.session.token })
+
 
 export default connect(mapStateToProps)(PrivateRoute);

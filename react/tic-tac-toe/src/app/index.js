@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
+import React, {Fragment} from 'react';
+import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import { ConnectedRouter } from 'connected-react-router'
 import { history } from '../redux/store'
@@ -12,10 +12,10 @@ import '../scss/application.scss';
 function App() {
   return (
     <ConnectedRouter history={history}>
-      <div>
+      <Switch>
         <Route exact path="/" component={Login} />
         <PrivateRoute exact path="/game" component={Game} />
-      </div>
+      </Switch>
     </ConnectedRouter>
   )
 }
