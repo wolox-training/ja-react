@@ -14,7 +14,7 @@ function App() {
     <ConnectedRouter history={history}>
       <div>
         <Route exact path="/" component={Login} />
-        <PrivateRoute path="/game" component={Game} />
+        <PrivateRoute exact path="/game" component={Game} />
       </div>
     </ConnectedRouter>
   )

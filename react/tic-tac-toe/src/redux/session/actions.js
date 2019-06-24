@@ -1,5 +1,6 @@
 import userService from '../../services/userService';
-import { push } from 'connected-react-router'
+import { push } from 'connected-react-router';
+import api from '../../config/api';
 
 export const actions = {
   LOGIN: '@@SESSION/LOGIN',
@@ -12,7 +13,8 @@ const actionsCreators = {
   login: data => async dispatch => {
     const response = await userService.login(data);
     if (response.ok) {
-      window.localStorage.setItem('token', response.data.token)
+      window.localStorage.setItem('token', response.data.token);
+      api.setHeader('Authorization', response.data.token);
       dispatch({
         type: actions.LOGIN_SUCCESS,
         payload: response.data
@@ -28,6 +30,7 @@ const actionsCreators = {
   logout: () => dispatch => {
     window.localStorage.removeItem('token');
     dispatch({type: actions.LOGOUT});
+    dispatch(push('/'));
   }
 };
 
