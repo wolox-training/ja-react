@@ -4,6 +4,7 @@ import session from './session/reducer';
 import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware  } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
+import { fetchMiddleware } from 'redux-recompose';
 
 export const history = createBrowserHistory();
 
@@ -20,5 +21,5 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export default createStore(
   reducer,
   composeEnhancers(
-  applyMiddleware(thunk,routerMiddleware(history)))
+  applyMiddleware(thunk,routerMiddleware(history), fetchMiddleware))
   );

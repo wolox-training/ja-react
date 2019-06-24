@@ -43,7 +43,7 @@ Login = reduxForm({
 
 class LoginFormContainer extends Component {
   submit = values => {
-    this.props.dispatch(sessionActions.login(values));
+    this.props.dispatch(sessionActions.login(values.email, values.password));
   }
 
   render() {
