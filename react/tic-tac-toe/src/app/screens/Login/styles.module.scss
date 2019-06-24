@@ -1,0 +1,18 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  padding: 15px;
+  max-width: 500px;
+  margin: 0 auto; 
+}
+
+.button {
+  border: 1px solid black;
+  padding: 5px;
+  margin: 0 auto;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

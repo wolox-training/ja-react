@@ -2,6 +2,8 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 import Board from './components/Board';
+import { connect } from 'react-redux';
+import sessionActions from '../../../redux/session/actions'
 
  class Game extends React.Component {
   
@@ -40,8 +42,13 @@ import Board from './components/Board';
     });
   }
 
+  logout() {
+    this.props.dispatch(sessionActions.logout());
+  }
+
 
   render() {
+    console.log('hi')
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
@@ -65,23 +72,28 @@ import Board from './components/Board';
     }
     
     return (
-      <div className={styles.game}>
-        <div className={styles.gameBoard}>
-        <Board
-          squares={current.squares}
-          onClick={(i) => this.handleClick(i)}
-        />
-        </div>
-        <div className={styles.gameInfo}>
-          <div>{ status }</div>
-          <ol>{ moves }</ol>
+      <div>
+        <button type="button" onClick={() => this.logout()}>
+          Logout
+        </button>
+        <div className={styles.game}>
+          <div className={styles.gameBoard}>
+          <Board
+            squares={current.squares}
+            onClick={(i) => this.handleClick(i)}
+          />
+          </div>
+          <div className={styles.gameInfo}>
+            <div>{ status }</div>
+            <ol>{ moves }</ol>
+          </div>
         </div>
       </div>
     );
    }
 }
 
-export default Game;
+export default connect()(Game);
 
 function calculateWinner(squares) {
   const lines = [
