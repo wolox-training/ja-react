@@ -1,7 +1,7 @@
 import { actions } from '~redux/session/actions';
 
 const initialState = {
-  token: null,
+  token: window.localStorage.getItem('token'),
   loginError: false
 };
 
@@ -10,13 +10,19 @@ function reducer(state = initialState, action) {
     case actions.LOGIN_SUCCESS:
       return {
         ...state,
-        token: action.payload.token
+        token: action.payload.token,
+        loginError: false
       };
       case actions.LOGIN_FAILURE:
-      return {
-        ...state,
-        loginError: true
-      };
+        return {
+          ...state,
+          loginError: true
+        };
+      case actions.LOGOUT:
+        return {
+          ...state,
+          token: null
+        }
     default:
       return state;
   }

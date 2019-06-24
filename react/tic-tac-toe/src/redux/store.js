@@ -2,9 +2,14 @@ import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import session from './session/reducer';
 import thunk from 'redux-thunk';
+import { connectRouter, routerMiddleware  } from 'connected-react-router'
+import { createBrowserHistory } from 'history'
+
+export const history = createBrowserHistory();
 
 const reducers = {
   form: formReducer,
+  router: connectRouter(history),
   session
 }
 
@@ -15,5 +20,5 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export default createStore(
   reducer,
   composeEnhancers(
-  applyMiddleware(thunk))
+  applyMiddleware(thunk,routerMiddleware(history)))
   );
